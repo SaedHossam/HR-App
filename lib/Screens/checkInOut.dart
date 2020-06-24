@@ -1,19 +1,23 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/Components/menu.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
 import 'package:hrapp/services/networking.dart';
-import 'package:http/http.dart' as http;
 import '../constants.dart';
+import 'package:trust_location/trust_location.dart';
+import 'package:location_permissions/location_permissions.dart';
+import 'package:flutter/services.dart';
 
 class CheckInOut extends StatefulWidget {
-
+  static const String id = 'checkIn_screen';
   @override
   _CheckInOutState createState() => _CheckInOutState();
 }
 
 class _CheckInOutState extends State<CheckInOut> {
+  String _latitude;
+  String _longitude;
+  bool _isMockLocation;
 
   int selectedIndex = 4;
   String getTodayInOut = 'http://13.90.214.197:8081/hrback/public/api/push_get_today?employee_id=1';
@@ -23,9 +27,8 @@ class _CheckInOutState extends State<CheckInOut> {
   int dataLength=0;
   NetworkHelper networkHelper = NetworkHelper();
 
-  Future<void> test() async {
+  Future<void> getCheckInOutData() async {
     var data = await networkHelper.getData();
-    //assert(data != null);
     if(data.length == 2){
       dataLength=2;
       todayArrivalTime = data[0]['time'];
@@ -46,11 +49,35 @@ class _CheckInOutState extends State<CheckInOut> {
     setState(() {});
   }
 
+  Future<void> getLocation() async {
+    try {
+      TrustLocation.onChange.listen((values) => setState(() {
+        _latitude = values.latitude;
+        _longitude = values.longitude;
+        _isMockLocation = values.isMockLocation;
+      }));
+    } on PlatformException catch (e) {
+      print('PlatformException $e');
+    }
+  }
+
+  /// request location permission at runtime.
+  void requestLocationPermission() async {
+    PermissionStatus permission =
+    await LocationPermissions().requestPermissions();
+    print('permissions: $permission');
+  }
+
   @override
   void initState() {
-    test();
+    getCheckInOutData();
     setState(() {});
     super.initState();
+    requestLocationPermission();
+    // input seconds into parameter for getting location with repeating by timer.
+    // this example set to 5 seconds.
+    TrustLocation.start(5);
+    getLocation();
   }
   @override
   Widget build(BuildContext context) {
@@ -81,7 +108,7 @@ class _CheckInOutState extends State<CheckInOut> {
                       dataLength++;
                       print('1st click');
                       setState(() {
-                        test();
+                        getCheckInOutData();
                       });
                     }
                     else if(dataLength == 1){
@@ -89,13 +116,13 @@ class _CheckInOutState extends State<CheckInOut> {
                       dataLength++;
                       print('2nd click');
                       setState(() {
-                        test();
+                        getCheckInOutData();
                       });
                     }
                     else {
                       print('clicked!!');
                       setState(() {
-                        test();
+                        getCheckInOutData();
                       });
 
                     }
@@ -247,6 +274,11 @@ class _CheckInOutState extends State<CheckInOut> {
                 },
                 title: 'Delete All',
               ),
+
+              Text('Mock Location: $_isMockLocation'),
+
+              Text('Latitude: $_latitude, Longitude: $_longitude'),
+              
             ],
           ),
         ),
@@ -254,7 +286,3 @@ class _CheckInOutState extends State<CheckInOut> {
     );
   }
 }
-
-
-
-

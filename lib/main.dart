@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/checkInOut.dart';
+import 'Screens/chatScreen.dart';
+import 'Screens/personalScreen.dart';
+import 'Screens/vacationScreen.dart';
+import 'Screens/vacationSent.dart';
+import 'draft/draftScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +33,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: CheckInOut(),
+      routes: {
+        LoginScreen.id: (context) => LoginScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
+        CheckInOut.id: (context) => CheckInOut(),
+        ChatScreen.id: (context) => ChatScreen(),
+        PersonalScreen.id: (context) => PersonalScreen(),
+        VacationScreen.id: (context) => VacationScreen(),
+        VacationSentScreen.id: (context) => VacationSentScreen(),
+      },
     );
   }
 }

@@ -5,7 +5,7 @@ import '../constants.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
-
+  static const String id = 'home_screen';
   final String title;
 
   @override
