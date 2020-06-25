@@ -6,7 +6,7 @@ import 'Screens/chatScreen.dart';
 import 'Screens/personalScreen.dart';
 import 'Screens/vacationScreen.dart';
 import 'Screens/vacationSent.dart';
-import 'draft/draftScreen.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           elevation: 4.0,
           textTheme: TextTheme(
-            title: TextStyle(
+            headline6: TextStyle(
               color: Colors.white,
               fontSize: 27.9,
               fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: CheckInOut(),
+      home: VacationScreen(),
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
         HomeScreen.id: (context) => HomeScreen(),

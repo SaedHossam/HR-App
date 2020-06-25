@@ -32,11 +32,15 @@ class Company {
 
 class DropDownState extends State<DropDown> {
 
+  String requestTypesUrl = 'http://13.90.214.197:8081/hrback/public/api/request_types';//GET
+  String sendRequestUrl = 'http://13.90.214.197:8081/hrback/public/api/emp_request';//POST
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   DateTime _selectedDateFrom;
   DateTime _selectedDateTo;
+  String dateFrom = 'من يوم',dateFromM,dateFromD;
+  String dateTo = 'الى يوم',dateToM,dateToD;
 
   @override
   void initState() {
@@ -123,13 +127,14 @@ class DropDownState extends State<DropDown> {
                   child: RaisedButton(
                     color: Colors.white,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.22,0,0,0),
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.09,0,0,0),
                       child: Row(
                         children: [
                           Text(
-                            'من يوم',
+                            dateFrom,
                             style: TextStyle(
                               fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
                               color: Colors.black,
                             ),
                           ),
@@ -152,6 +157,10 @@ class DropDownState extends State<DropDown> {
                       ).then((value) {
                         setState(() {
                           _selectedDateFrom = value;
+                          dateFromM='${_selectedDateFrom.month >9 ?_selectedDateFrom.month :'0${_selectedDateFrom.month }'}';
+                          dateFromD = '${_selectedDateFrom.day >9 ?_selectedDateFrom.day :'0${_selectedDateFrom.day }'}';
+                          dateFrom = '${_selectedDateFrom.year}-$dateFromM-$dateFromD';
+                          print(dateFrom);
                         });
                       });
                     },
@@ -165,13 +174,14 @@ class DropDownState extends State<DropDown> {
                   child: RaisedButton(
                     color: Colors.white,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.22,0,0,0),
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.09,0,0,0),
                       child: Row(
                         children: [
                           Text(
-                            'الي يوم',
+                            dateTo,
                             style: TextStyle(
                               fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
                               color: Colors.black,
                             ),
                           ),
@@ -194,6 +204,10 @@ class DropDownState extends State<DropDown> {
                       ).then((value) {
                         setState(() {
                           _selectedDateTo = value;
+                          dateToM='${_selectedDateTo.month >9 ?_selectedDateFrom.month :'0${_selectedDateFrom.month }'}';
+                          dateToD = '${_selectedDateTo.day >9 ?_selectedDateTo.day :'0${_selectedDateTo.day }'}';
+                          dateTo = '${_selectedDateTo.year}-$dateToM-$dateToD';
+                          print(dateTo);
                         });
                       });
                     },
