@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/checkInOut.dart';
 import 'Screens/chatScreen.dart';
+import 'Screens/mainScreen.dart';
 import 'Screens/personalScreen.dart';
 import 'Screens/vacationScreen.dart';
 import 'Screens/vacationSent.dart';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: VacationScreen(),
+      home: MainScreen(),
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
         HomeScreen.id: (context) => HomeScreen(),
@@ -41,6 +43,7 @@ class MyApp extends StatelessWidget {
         PersonalScreen.id: (context) => PersonalScreen(),
         VacationScreen.id: (context) => VacationScreen(),
         VacationSentScreen.id: (context) => VacationSentScreen(),
+        MainScreen.id: (context) => MainScreen()
       },
     );
   }

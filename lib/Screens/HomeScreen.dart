@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
+import 'package:hrapp/Screens/checkInOut.dart';
+import 'package:hrapp/Screens/mainScreen.dart';
+import 'package:hrapp/Screens/vacationScreen.dart';
+import 'package:hrapp/services/size_config.dart';
 import '../constants.dart';
+import 'chatScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -13,36 +18,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 2;
   String dateToday = "May, 21 - 2020";
   String arrivalTime = "09:20 AM";
   String leaveTime = "00:00 00";
 
+
   @override
   Widget build(BuildContext context) {
-//    double width = MediaQuery.of(context).size.width;
-//    double height = MediaQuery.of(context).size.height;
-//    print("$width $height");
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.menu,
-            color: Colors.white,
-            size: 35.34,
+        leading:Padding(
+          padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal),
+          child: GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.notifications,
+              color: Colors.white,
+              size: SizeConfig.blockSizeHorizontal*10,
+            ),
           ),
         ),
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 35.34,
-              ),
+          GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.menu,
+              color: Colors.white,
+              size: SizeConfig.blockSizeHorizontal*10,
             ),
           ),
         ],
@@ -73,12 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-//                  Container(
-//                    width: 7.44,
-//                    height: 180,
-//                    color: Colors.black,
-//                    //color: Color.fromRGBO(71, 80, 98,1),
-//                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -148,57 +145,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             RoundedButton(
-              onPressed: () {},
+              onPressed: () {
+//                Navigator.pushNamed(context, MainScreen.id,arguments: {
+//                  'index':4
+//                });
+
+                Navigator.pushNamed(context, CheckInOut.id);
+              },
               title: 'تسجيل وصول / انصراف',
             ),
             RoundedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, VacationScreen.id);
+              },
               title: 'طلب أجازة',
             ),
             RoundedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, ChatScreen.id);
+              },
               title: 'المراسلات',
             )
           ],
         ),
-      ),
-      bottomNavigationBar: FFNavigationBar(
-        theme: FFNavigationBarTheme(
-          barBackgroundColor: Colors.white,
-          selectedItemBorderColor: Color.fromRGBO(84, 189, 176, 1),
-          selectedItemBackgroundColor: Color.fromRGBO(84, 189, 176, 1),
-          selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.black,
-        ),
-        selectedIndex: selectedIndex,
-        onSelectTab: (index) {
-          setState(() {
-            selectedIndex = index;
-            print(selectedIndex);
-          });
-        },
-        items: [
-          FFNavigationBarItem(
-            iconData: Icons.chat,
-            label: '',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.person,
-            label: '',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.home,
-            label: '',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.add_location,
-            label: '',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.fingerprint,
-            label: '',
-          ),
-        ],
       ),
     );
   }

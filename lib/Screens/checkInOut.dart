@@ -18,7 +18,6 @@ class _CheckInOutState extends State<CheckInOut> {
   String _latitude;
   String _longitude;
   bool _isMockLocation;
-
   int selectedIndex = 4;
   //String getTodayInOut = 'http://13.90.214.197:8081/hrback/public/api/push_get_today?employee_id=1';
   String todayArrivalDate = "---";
