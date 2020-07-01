@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/Components/menu.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
+import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/services/networking.dart';
 import '../constants.dart';
 import 'package:trust_location/trust_location.dart';
@@ -83,7 +84,7 @@ class _CheckInOutState extends State<CheckInOut> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('تسجيل وصول'),
+        title: Text(getTranslated(context,'check_in_out_page_title')),
         centerTitle: true,
         leading: Menu(),
       ),
@@ -190,7 +191,7 @@ class _CheckInOutState extends State<CheckInOut> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      'انصراف',
+                                      getTranslated(context,'txtView2_leave'),
                                       style: TextStyle(
                                         fontSize: 24.0,
                                       ),
@@ -233,7 +234,7 @@ class _CheckInOutState extends State<CheckInOut> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      'وصول',
+                                      getTranslated(context,'txtView2_arrival'),
                                       style: TextStyle(
                                         fontSize: 24.0,
                                       ),

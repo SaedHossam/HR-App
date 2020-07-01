@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'package:hrapp/Components/drawerList.dart';
 
 import 'package:hrapp/Screens/HomeScreen.dart';
 import 'package:hrapp/Screens/personalScreen.dart';
@@ -28,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //drawer: drawerList(context),
       body: screens[selectedIndex],
       bottomNavigationBar: FFNavigationBar(
         theme: FFNavigationBarTheme(

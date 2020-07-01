@@ -1,0 +1,41 @@
+{
+  "draft_screen": "Draft Screen",
+  "date_of_birth" : "Date of Birth",
+  "submit" : "Submit",
+
+  "phone_number" : "Phone Number",
+  "password" : "Password",
+  "log_in" : "Log In",
+
+  "home_page_title" : "Home Page",
+  "txtView_arrival" : "arrival",
+  "txtView_leave" : "leave",
+  "btn_check_in_out" : "Check In\\Out",
+  "btn_vacation_request" : "Vacation Request",
+  "btn_messaging" : "Messages",
+
+  "check_in_out_page_title" : "Check In",
+  "txtView2_arrival" : "arrival",
+  "txtView2_leave" : "leave",
+
+  "chat_page_title" : "Chat With",
+
+  "profile_page_title" : "Profile",
+  "settings" :"Settings",
+  "data" : "Data",
+  "btn_save" : "Save",
+
+  "vacation_request_page_title" : "Vacation Request",
+  "btn_vacation_type" : "Vacation Type",
+  "btn_day_from" : "Day From",
+  "btn_day_to" : "Day To",
+  "btn_submit_request" : "Submit Request",
+
+  "vacation_request_sent_page_title" : "Vacation Request",
+  "txtView_request_sent" : "Request has been sent",
+  "txtView_response" : "some text here",
+  "btn_back" : "Back",
+  "btn_home" : "Home",
+
+  "add_location_page_title" : "Add Location"
+}

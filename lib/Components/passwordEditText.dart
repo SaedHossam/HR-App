@@ -14,7 +14,6 @@ class PasswordEditText extends StatelessWidget {
       child: TextFormField(
         onChanged: onChanged,
         obscureText: true,
-        textAlign: TextAlign.right,
         autofocus: false,
         decoration: InputDecoration(
             hintText: title,

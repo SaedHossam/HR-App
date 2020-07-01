@@ -14,7 +14,6 @@ class PhoneEditText extends StatelessWidget {
       child: TextFormField(
         onChanged: onChanged,
         keyboardType: TextInputType.phone,
-        textAlign: TextAlign.right,
         autofocus: false,
         decoration: InputDecoration(
           hintText: title,

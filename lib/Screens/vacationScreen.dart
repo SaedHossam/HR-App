@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hrapp/Components/borderSide.dart';
 import 'package:hrapp/Components/menu.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
+import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/models/newRequest.dart';
 import 'package:hrapp/services/networking.dart';
 import 'package:hrapp/services/size_config.dart';
@@ -22,8 +23,8 @@ class _VacationScreenState extends State<VacationScreen> {
   String _requestType;
   DateTime _selectedDateFrom;
   DateTime _selectedDateTo;
-  String dateFrom = 'من يوم', dateFromM, dateFromD;
-  String dateTo = 'الى يوم', dateToM, dateToD;
+  String dateFrom , dateFromM, dateFromD;
+  String dateTo , dateToM, dateToD;
   String _getRequestTypes =
       'http://13.90.214.197:8081/hrback/public/api/request_types'; //GET
   String employeeId = '1';
@@ -53,7 +54,7 @@ class _VacationScreenState extends State<VacationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('طلب اجازة'),
+        title: Text(getTranslated(context,'vacation_request_page_title')),
         leading: Menu(),
       ),
       body: Container(
@@ -86,7 +87,7 @@ class _VacationScreenState extends State<VacationScreen> {
                       color: Colors.black54,
                       fontSize: SizeConfig.safeBlockHorizontal*7,
                     ),
-                    hint: Text('نوع الاجازة'),
+                    hint: Text(getTranslated(context,'btn_vacation_type')),
                     onChanged: (String newValue) {
                       setState(() {
                         _requestType = newValue;
@@ -95,6 +96,7 @@ class _VacationScreenState extends State<VacationScreen> {
                     },
                     items: requestsTypes?.map((item) {
                           return new DropdownMenuItem(
+                            // TODO: Language = Arabic? Arabic : English
                             child: new Text(item['ar_name']),
                             value: item['id'].toString(),
                           );
@@ -118,7 +120,7 @@ class _VacationScreenState extends State<VacationScreen> {
                         width: SizeConfig.blockSizeHorizontal,
                       ),
                       Text(
-                        dateFrom,
+                        dateFrom ==null ? getTranslated(context,'btn_day_from') :dateFrom,
                         style: TextStyle(
                           fontSize: SizeConfig.safeBlockHorizontal*4,
                           fontWeight: FontWeight.normal,
@@ -168,7 +170,7 @@ class _VacationScreenState extends State<VacationScreen> {
                         width: SizeConfig.safeBlockHorizontal,
                       ),
                       Text(
-                        dateTo,
+                        dateTo ==null ? getTranslated(context,'btn_day_to') :dateTo,
                         style: TextStyle(
                           fontSize: SizeConfig.safeBlockHorizontal*4,
                           fontWeight: FontWeight.normal,
@@ -203,7 +205,7 @@ class _VacationScreenState extends State<VacationScreen> {
               ),
             ),
             RoundedButton(
-              title: 'تقديم الطلب',
+              title: getTranslated(context,'btn_submit_request'),
               onPressed: () async {
                 _request.employee_id = '1';
                 _request.request_type_id = _requestType;

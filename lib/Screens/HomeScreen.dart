@@ -1,9 +1,11 @@
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hrapp/Components/drawerList.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
 import 'package:hrapp/Screens/checkInOut.dart';
 import 'package:hrapp/Screens/mainScreen.dart';
 import 'package:hrapp/Screens/vacationScreen.dart';
+import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/services/size_config.dart';
 import '../constants.dart';
 import 'chatScreen.dart';
@@ -22,35 +24,28 @@ class _HomeScreenState extends State<HomeScreen> {
   String arrivalTime = "09:20 AM";
   String leaveTime = "00:00 00";
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      drawer: drawerList(context),
       appBar: AppBar(
-        leading:Padding(
-          padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal),
-          child: GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: SizeConfig.blockSizeHorizontal*10,
-            ),
-          ),
-        ),
         actions: <Widget>[
-          GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: SizeConfig.blockSizeHorizontal*10,
+          Padding(
+            padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal),
+            child: GestureDetector(
+              onTap: () {
+                //TODO: Show Notifications
+              },
+              child: Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
         centerTitle: true,
-        title: Text("الرئيسية"),
+        title: Text(getTranslated(context, 'home_page_title')),
       ),
       body: Center(
         child: Column(
@@ -115,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: KCardTextStyle.copyWith(fontSize: 18.6),
                             ),
                             Text(
-                              "وصول",
+                              getTranslated(context, 'txtView_arrival'),
                               style: KCardTextStyle.copyWith(
                                   fontWeight: FontWeight.bold, fontSize: 22.32),
                             )
@@ -132,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: KCardTextStyle.copyWith(fontSize: 18.6),
                             ),
                             Text(
-                              "انصراف",
+                              getTranslated(context, 'txtView_leave'),
                               style: KCardTextStyle.copyWith(
                                   fontWeight: FontWeight.bold, fontSize: 22.32),
                             )
@@ -152,19 +147,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Navigator.pushNamed(context, CheckInOut.id);
               },
-              title: 'تسجيل وصول / انصراف',
+              title: getTranslated(context, 'btn_check_in_out'),
             ),
             RoundedButton(
               onPressed: () {
                 Navigator.pushNamed(context, VacationScreen.id);
               },
-              title: 'طلب أجازة',
+              title: getTranslated(context, 'btn_vacation_request'),
             ),
             RoundedButton(
               onPressed: () {
                 Navigator.pushNamed(context, ChatScreen.id);
               },
-              title: 'المراسلات',
+              title: getTranslated(context, 'btn_messaging'),
             )
           ],
         ),

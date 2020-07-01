@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hrapp/Components/passwordEditText.dart';
 import 'package:hrapp/Components/phoneEditText.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
-import 'package:hrapp/Screens/HomeScreen.dart';
+import 'package:hrapp/localization/localization_constants.dart';
+import 'package:hrapp/models/language.dart';
+import 'package:hrapp/services/size_config.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import '../main.dart';
+import 'mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -19,10 +24,46 @@ class _LoginScreenState extends State<LoginScreen> {
   String phone;
   String password;
 
+  void _logIn(String phone, String password) {
+    print("login Called");
+  }
+
+  void _changeLanguage(Language language) async{
+    Locale _temp = await setLocale(language.languageCode);
+    MyApp.setLocate(context,_temp);
+  }
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal*2),
+            child: DropdownButton(
+              underline: SizedBox(),
+              icon: Icon(Icons.language, color: Colors.white),
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+                value: lang,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(lang.name, style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal*5,),),
+                    Text(lang.flag),
+                  ],
+                ),
+              ),
+              ).toList(),
+              onChanged: (Language language) {
+                _changeLanguage(language);
+              },
+            ),
+          ),
+        ],
+      ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
@@ -57,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (value){
                   phone = value;
                 },
-                title: 'رقم الهاتف',
+                title: getTranslated(context,'phone_number'),
               ),
             ),
               SizedBox(
@@ -68,17 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   onChanged: (value) {
                     password = value;
                   },
-                  title: 'كلمة المرور',
+                  title: getTranslated(context,'password'),
                 ),
               ),
               SizedBox(
                 height: 24.0,
               ),
               RoundedButton(
-                title: 'تسجيل الدخول',
+                title: getTranslated(context,'log_in'),
                 onPressed: ()  {
                   //TODO Login auth
-                  Navigator.pushNamed(context, HomeScreen.id);
+                  _logIn(phone,password);
+                  Navigator.pushNamed(context, MainScreen.id);
                 },
               ),
             ],
@@ -88,3 +130,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+

@@ -1,0 +1,41 @@
+{
+  "draft_screen": "صفحة تجريبية",
+  "date_of_birth" : "تاريخ الميلاد",
+  "submit" : "تأكيد",
+
+  "phone_number" : "رقم الهاتف",
+  "password" : "الرقم السري",
+  "log_in" : "تسجيل الدخول",
+
+  "home_page_title" : "الصفحة الرئيسية",
+  "txtView_arrival" : "وصول",
+  "txtView_leave" : "انصراف",
+  "btn_check_in_out" : "تسجيل وصول\\انصراف",
+  "btn_vacation_request" : "طلب اجازة",
+  "btn_messaging" : "المراسلات",
+
+  "check_in_out_page_title" : "تسجيل وصول",
+  "txtView2_arrival" : "وصول",
+  "txtView2_leave" : "انصراف",
+
+  "chat_page_title" : "محادثة مع",
+
+  "profile_page_title" : "الصفحة الشخصية",
+  "settings" :"الاعدادات",
+  "data" : "بيانات",
+  "btn_save" : "حفظ",
+
+  "vacation_request_page_title" : "طلب اجازة",
+  "btn_vacation_type" : "نوع الاجازة",
+  "btn_day_from" : "من يوم",
+  "btn_day_to" : "الي يوم",
+  "btn_submit_request" : "تقديم الطلب",
+
+  "vacation_request_sent_page_title" : "طلب اجازة",
+  "txtView_request_sent" : "تم تقديم الطلب",
+  "txtView_response" : "بعض النص هنا",
+  "btn_back" : "العودة",
+  "btn_home" : "الرئيسية",
+
+  "add_location_page_title" : "اضافة موقع"
+}
