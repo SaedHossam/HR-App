@@ -13,7 +13,7 @@ import 'Screens/mainScreen.dart';
 import 'Screens/personalScreen.dart';
 import 'Screens/vacationScreen.dart';
 import 'Screens/vacationSent.dart';
-import 'draft/draftScreen.dart';
+//import 'draft/draftScreen.dart';
 import 'localization/demo_localization.dart';
 import 'localization/localization_constants.dart';
 
