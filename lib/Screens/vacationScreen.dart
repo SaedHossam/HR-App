@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/Components/borderSide.dart';
-import 'package:hrapp/Components/menu.dart';
+import 'package:hrapp/Components/bottomNavBar.dart';
+import 'package:hrapp/Components/drawerList.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
+import 'package:hrapp/Screens/vacationSent.dart';
 import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/models/newRequest.dart';
 import 'package:hrapp/services/networking.dart';
@@ -17,7 +19,6 @@ class VacationScreen extends StatefulWidget {
 }
 
 class _VacationScreenState extends State<VacationScreen> {
-  int selectedIndex = 2;
   NetworkHelper networkHelper = NetworkHelper();
   List requestsTypes;
   String _requestType;
@@ -52,14 +53,28 @@ class _VacationScreenState extends State<VacationScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      bottomNavigationBar: bottomNavBar(2,context),
+      drawer: drawerList(context),
       appBar: AppBar(
-        centerTitle: true,
         title: Text(getTranslated(context,'vacation_request_page_title')),
-        leading: Menu(),
+        centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal),
+            child: GestureDetector(
+              onTap: () {
+                //TODO: Show Notifications
+              },
+              child: Icon(
+                Icons.notifications,
+                color: Colors.white,
+                size: SizeConfig.safeBlockHorizontal*8,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
-        height: SizeConfig.safeBlockVertical * 100,
-        width: SizeConfig.safeBlockHorizontal * 100,
         color: Colors.white,
         margin: EdgeInsets.only(
           left: SizeConfig.safeBlockHorizontal * 16,
@@ -85,7 +100,7 @@ class _VacationScreenState extends State<VacationScreen> {
                     //icon: (null),
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: SizeConfig.safeBlockHorizontal*7,
+                      fontSize: SizeConfig.safeBlockHorizontal*6,
                     ),
                     hint: Text(getTranslated(context,'btn_vacation_type')),
                     onChanged: (String newValue) {
@@ -97,7 +112,9 @@ class _VacationScreenState extends State<VacationScreen> {
                     items: requestsTypes?.map((item) {
                           return new DropdownMenuItem(
                             // TODO: Language = Arabic? Arabic : English
-                            child: new Text(item['ar_name']),
+                            child: new Text(
+                                item['ar_name'],
+                            ),
                             value: item['id'].toString(),
                           );
                         })?.toList() ??
@@ -116,21 +133,20 @@ class _VacationScreenState extends State<VacationScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal,
+                      Icon(
+                        Icons.calendar_today,
+                        textDirection: TextDirection.rtl,
                       ),
                       Text(
                         dateFrom ==null ? getTranslated(context,'btn_day_from') :dateFrom,
                         style: TextStyle(
-                          fontSize: SizeConfig.safeBlockHorizontal*4,
+                          fontSize: SizeConfig.safeBlockHorizontal*5,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
-
                       ),
-                      Icon(
-                        Icons.calendar_today,
-                        textDirection: TextDirection.rtl,
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal,
                       ),
                     ],
                   ),
@@ -166,20 +182,19 @@ class _VacationScreenState extends State<VacationScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: SizeConfig.safeBlockHorizontal,
+                      Icon(
+                        Icons.calendar_today,
                       ),
                       Text(
                         dateTo ==null ? getTranslated(context,'btn_day_to') :dateTo,
                         style: TextStyle(
-                          fontSize: SizeConfig.safeBlockHorizontal*4,
+                          fontSize: SizeConfig.safeBlockHorizontal*5,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
                       ),
-                      Icon(
-                        Icons.calendar_today,
-                        textDirection: TextDirection.rtl,
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal,
                       ),
                     ],
                   ),
@@ -214,9 +229,9 @@ class _VacationScreenState extends State<VacationScreen> {
                 _request.to_dep_id = '14';
                 _request.notes = notes;
 
+                // TODO: Check if request sent successfully.
                 await networkHelper.sendRequest(_request);
-                //await sendRequest();
-                print('Done');
+                Navigator.pushNamed(context, VacationSentScreen.id);
               },
             ),
           ],

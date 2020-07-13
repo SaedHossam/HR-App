@@ -6,7 +6,7 @@ import 'package:hrapp/Screens/HomeScreen.dart';
 import 'package:hrapp/Screens/LoginScreen.dart';
 import 'package:hrapp/Screens/checkInOut.dart';
 import 'package:hrapp/Screens/chatScreen.dart';
-import 'package:hrapp/Screens/mainScreen.dart';
+import 'file:///G:/HiveTech/hr_app/lib/draft/mainScreen.dart';
 import 'package:hrapp/Screens/personalScreen.dart';
 import 'package:hrapp/Screens/vacationScreen.dart';
 import 'package:hrapp/Screens/vacationSent.dart';

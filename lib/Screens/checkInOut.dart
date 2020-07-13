@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrapp/Components/menu.dart';
-import 'package:hrapp/Components/roundedBtn.dart';
+import 'package:hrapp/Components/bottomNavBar.dart';
+import 'package:hrapp/Components/drawerList.dart';
 import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/services/networking.dart';
+import 'package:hrapp/services/size_config.dart';
 import '../constants.dart';
 import 'package:trust_location/trust_location.dart';
 import 'package:location_permissions/location_permissions.dart';
@@ -49,6 +50,7 @@ class _CheckInOutState extends State<CheckInOut> {
     setState(() {});
   }
 
+  // Check if location is false
   Future<void> getLocation() async {
     try {
       TrustLocation.onChange.listen((values) => setState(() {
@@ -72,215 +74,215 @@ class _CheckInOutState extends State<CheckInOut> {
   void initState() {
     getCheckInOutData();
     setState(() {});
-    super.initState();
     requestLocationPermission();
     // input seconds into parameter for getting location with repeating by timer.
     // this example set to 5 seconds.
     TrustLocation.start(5);
     getLocation();
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
+    SizeConfig().init(context);
     return Scaffold(
+      drawer: drawerList(context),
+      bottomNavigationBar: bottomNavBar(0,context),
       appBar: AppBar(
-        title: Text(getTranslated(context,'check_in_out_page_title')),
+        title: Text(getTranslated(context, 'check_in_out_page_title')),
         centerTitle: true,
-        leading: Menu(),
       ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(236, 254, 252,1),
-                  border: Border.all(
-                    color: Color.fromRGBO(164, 241, 231, 1),
-                  ),
-                  borderRadius: BorderRadius.circular(100.0),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              height: SizeConfig.safeBlockHorizontal*45,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(236, 254, 252,1),
+                border: Border.all(
+                  color: Color.fromRGBO(164, 241, 231, 1),
                 ),
-                child: GestureDetector(
-                  onTap: () async{
-                    if(dataLength == 0 ){
-                      await networkHelper.addEnterTime();
-                      dataLength++;
-                      print('1st click');
-                      setState(() {
-                        getCheckInOutData();
-                      });
-                    }
-                    else if(dataLength == 1){
-                      await networkHelper.addLeaveTime();
-                      dataLength++;
-                      print('2nd click');
-                      setState(() {
-                        getCheckInOutData();
-                      });
-                    }
-                    else {
-                      print('clicked!!');
-                      setState(() {
-                        getCheckInOutData();
-                      });
-
-                    }
-                  },
-                  child: Icon(
-                    Icons.fingerprint,
-                    size: 120.0,
-                    color: Color.fromRGBO(	110, 122, 144, 1),
-                  ),
-                ),
+                borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*100),
               ),
+              child: GestureDetector(
+                onTap: () async{
+                  if(dataLength == 0 ){
+                    await networkHelper.addEnterTime();
+                    dataLength++;
+                    print('1st click');
+                    setState(() {
+                      getCheckInOutData();
+                    });
+                  }
+                  else if(dataLength == 1){
+                    await networkHelper.addLeaveTime();
+                    dataLength++;
+                    print('2nd click');
+                    setState(() {
+                      getCheckInOutData();
+                    });
+                  }
+                  else {
+                    print('clicked!!');
+                    setState(() {
+                      getCheckInOutData();
+                    });
 
-              Container(
-                margin: EdgeInsets.all(10.0),
-                padding: EdgeInsets.all(10.0),
-                width: 360.0,
-                height: 182.28,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Color.fromRGBO(221, 239, 237, 1),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 10.0, // soften the shadow
-                        spreadRadius: 1.0, //extend the shadow
-                        offset: Offset(
-                          -0.1, // horizontally
-                          2.5, // Vertically
-                        ))
-                  ],
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        todayArrivalDate,
-                        style: KCardTextStyle.copyWith(fontSize: 22.32),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 1.0, right: 1.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.all(5.0),
-                            padding: const EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(196, 196, 196, 1),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 1.0, // soften the shadow
-                                    spreadRadius: 1.0, //extend the shadow
-                                    offset: Offset(
-                                      -0.1, // horizontally
-                                      2.5, // Vertically
-                                    ))
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      getTranslated(context,'txtView2_leave'),
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
-                                    Icon(
-                                      Icons.exit_to_app,
-                                      size: 42.0,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                    todayLeaveTime,
-                                  style: KCardTextStyle,
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(5.0),
-                            padding: const EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(196, 196, 196, 1),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 1.0, // soften the shadow
-                                    spreadRadius: 1.0, //extend the shadow
-                                    offset: Offset(
-                                      -0.1, // horizontally
-                                      2.5, // Vertically
-                                    ))
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      getTranslated(context,'txtView2_arrival'),
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
-                                    Icon(
-                                      Icons.exit_to_app,
-                                      size: 42.0,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  todayArrivalTime,
-                                  style: KCardTextStyle,
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              RoundedButton(
-                onPressed: ()async{
-                  await networkHelper.clearDayData();
-                  setState(() {
-                    dataLength = 0;
-                    todayArrivalTime = "---";
-                    todayArrivalDate = "---";
-                    todayLeaveTime = "---";
-                  });
+                  }
                 },
-                title: 'Delete All',
+                child: Icon(
+                  Icons.fingerprint,
+                  size: SizeConfig.safeBlockVertical*20,
+                  color: Color.fromRGBO(	110, 122, 144, 1),
+                ),
               ),
+            ),
 
-              Text('Mock Location: $_isMockLocation'),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: SizeConfig.safeBlockHorizontal*3,
+              ),
+              //padding: EdgeInsets.all(10.0),
+              //width: SizeConfig.safeBlockVertical*80,
+              height: SizeConfig.safeBlockHorizontal*56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*2),
+                color: Color.fromRGBO(221, 239, 237, 1),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black,
+                      blurRadius: SizeConfig.safeBlockVertical*1, // soften the shadow
+                      spreadRadius: 1.0, //extend the shadow
+                      offset: Offset(
+                        -0.1, // horizontally
+                        2.5, // Vertically
+                      ))
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(
+                    todayArrivalDate,
+                    style: KCardTextStyle.copyWith(fontSize: SizeConfig.safeBlockVertical*3),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Container(
+                        width: SizeConfig.safeBlockVertical*20,
+                        height: SizeConfig.safeBlockHorizontal*30,
+                        margin:  EdgeInsets.all(SizeConfig.safeBlockVertical),
+                        //padding: EdgeInsets.all(SizeConfig.safeBlockVertical*80),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(196, 196, 196, 1),
+                          borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*1),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 1.0, // soften the shadow
+                                spreadRadius: 1.0, //extend the shadow
+                                offset: Offset(
+                                  -0.1, // horizontally
+                                  2.5, // Vertically
+                                ))
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.exit_to_app,
+                                  size: SizeConfig.safeBlockVertical*6,
+                                ),
+                                Text(
+                                  getTranslated(context,'txtView2_leave'),
+                                  style: TextStyle(
+                                    fontSize: SizeConfig.safeBlockVertical*2.5,
+                                  ),
+                                ),
 
-              Text('Latitude: $_latitude, Longitude: $_longitude'),
-              
-            ],
-          ),
+                              ],
+                            ),
+                            Text(
+                                todayLeaveTime,
+                              style: KCardTextStyle.copyWith(fontSize:SizeConfig.safeBlockVertical*2.5),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: SizeConfig.safeBlockVertical*20,
+                        height: SizeConfig.safeBlockHorizontal*30,
+                        margin:  EdgeInsets.all(SizeConfig.safeBlockVertical),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*1),
+                          color: Color.fromRGBO(196, 196, 196, 1),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 1.0, // soften the shadow
+                                spreadRadius: 1.0, //extend the shadow
+                                offset: Offset(
+                                  -0.1, // horizontally
+                                  2.5, // Vertically
+                                ))
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.exit_to_app,
+                                  size: SizeConfig.safeBlockVertical*6,
+                                ),
+                                Text(
+                                  getTranslated(context,'txtView2_arrival'),
+                                  style: TextStyle(
+                                    fontSize: SizeConfig.safeBlockVertical*2.5,
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                            Text(
+                              todayArrivalTime,
+                              style: KCardTextStyle.copyWith(fontSize:SizeConfig.safeBlockVertical*2.5),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+//            RoundedButton(
+//              onPressed: ()async{
+//                await networkHelper.clearDayData();
+//                setState(() {
+//                  dataLength = 0;
+//                  todayArrivalTime = "---";
+//                  todayArrivalDate = "---";
+//                  todayLeaveTime = "---";
+//                });
+//              },
+//              title: 'Delete All',
+//            ),
+//
+//            Text('Mock Location: $_isMockLocation'),
+//
+//            Text('Latitude: $_latitude, Longitude: $_longitude'),
+
+          ],
         ),
       ),
     );

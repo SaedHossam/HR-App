@@ -6,9 +6,8 @@ import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/models/language.dart';
 import 'package:hrapp/services/size_config.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
 import '../main.dart';
-import 'mainScreen.dart';
+import 'HomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -120,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: ()  {
                   //TODO Login auth
                   _logIn(phone,password);
-                  Navigator.pushNamed(context, MainScreen.id);
+                  Navigator.pushNamed(context, HomeScreen.id);
                 },
               ),
             ],

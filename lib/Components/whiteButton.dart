@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrapp/services/size_config.dart';
 
-class RoundedButton extends StatelessWidget {
-  RoundedButton({this.title, @required this.onPressed});
+class WhiteButton extends StatelessWidget {
+  WhiteButton({this.title, @required this.onPressed});
 
   final String title;
   final Function onPressed;
@@ -12,21 +12,21 @@ class RoundedButton extends StatelessWidget {
     SizeConfig().init(context);
     return Material(
       //elevation: 5.0,
-      color: Color.fromRGBO(84, 189, 176, 1),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(SizeConfig.safeBlockHorizontal*19),
       child: MaterialButton(
         onPressed: onPressed,
         minWidth: SizeConfig.safeBlockHorizontal*70,
-        height: SizeConfig.safeBlockVertical*8,
+        height: SizeConfig.safeBlockVertical*6,
         child: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: SizeConfig.safeBlockHorizontal*5,
-              fontWeight: FontWeight.bold,
-            ),
+          title,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: SizeConfig.safeBlockHorizontal*4.5,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      );
+      ),
+    );
   }
 }

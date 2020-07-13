@@ -4,13 +4,14 @@ import 'package:hrapp/Screens/addLocationScreen.dart';
 import 'package:hrapp/Screens/chatScreen.dart';
 import 'package:hrapp/Screens/checkInOut.dart';
 import 'package:hrapp/Screens/personalScreen.dart';
+import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/services/size_config.dart';
 
 Container drawerList(BuildContext context) {
   SizeConfig().init(context);
   TextStyle _textStyle = TextStyle(
     color: Colors.white,
-    fontSize: SizeConfig.safeBlockHorizontal*7,
+    fontSize: SizeConfig.safeBlockHorizontal*5,
   );
   return Container(
     width: MediaQuery.of(context).size.width/1.5,
@@ -33,7 +34,7 @@ Container drawerList(BuildContext context) {
             size: SizeConfig.safeBlockVertical*5,
           ),
           title: Text(
-            'chat',
+            getTranslated(context,'chat_page_title'),
             style: _textStyle,
           ),
           onTap: () {
@@ -48,7 +49,7 @@ Container drawerList(BuildContext context) {
             size: SizeConfig.safeBlockVertical*5,
           ),
           title: Text(
-            'Profile',
+            getTranslated(context,'profile_page_title'),
             style: _textStyle,
           ),
           onTap: () {
@@ -63,7 +64,7 @@ Container drawerList(BuildContext context) {
             size: SizeConfig.safeBlockVertical*5,
           ),
           title: Text(
-            'Home',
+            getTranslated(context, 'home_page_title'),
             style: _textStyle,
           ),
           onTap: () {
@@ -78,7 +79,7 @@ Container drawerList(BuildContext context) {
             size: SizeConfig.safeBlockVertical*5,
           ),
           title: Text(
-            'Add Location',
+            getTranslated(context,'add_location_page_title'),
             style: _textStyle,
           ),
           onTap: () {
@@ -93,7 +94,7 @@ Container drawerList(BuildContext context) {
             size: SizeConfig.safeBlockVertical*5,
           ),
           title: Text(
-            'check In and/or Out',
+            getTranslated(context,'check_in_out_page_title'),
             style: _textStyle,
           ),
           onTap: () {

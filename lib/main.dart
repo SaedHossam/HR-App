@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hrapp/services/size_config.dart';
 
 //import 'package:hrapp/routes/customRouteer.dart';
 //import 'package:hrapp/routes/routesNames.dart';
+//import 'draft/draftScreen.dart';
 
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/addLocationScreen.dart';
 import 'Screens/checkInOut.dart';
 import 'Screens/chatScreen.dart';
-import 'Screens/mainScreen.dart';
+import 'draft/mainScreen.dart';
 import 'Screens/personalScreen.dart';
 import 'Screens/vacationScreen.dart';
 import 'Screens/vacationSent.dart';
-//import 'draft/draftScreen.dart';
 import 'localization/demo_localization.dart';
 import 'localization/localization_constants.dart';
 
@@ -59,6 +60,8 @@ class _MyAppState extends State<MyApp> {
       );
     }
     else {
+      // TODO: reassign design values with SizeConfig values
+//      SizeConfig().init(context);
       return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -70,7 +73,11 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.white),
             elevation: 4.0,
+            actionsIconTheme: IconThemeData(
+              color: Colors.white,
+            ),
             textTheme: TextTheme(
               headline6: TextStyle(
                 color: Colors.white,

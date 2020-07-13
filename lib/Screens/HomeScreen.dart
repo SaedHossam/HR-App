@@ -1,9 +1,8 @@
-import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:hrapp/Components/bottomNavBar.dart';
 import 'package:hrapp/Components/drawerList.dart';
 import 'package:hrapp/Components/roundedBtn.dart';
 import 'package:hrapp/Screens/checkInOut.dart';
-import 'package:hrapp/Screens/mainScreen.dart';
 import 'package:hrapp/Screens/vacationScreen.dart';
 import 'package:hrapp/localization/localization_constants.dart';
 import 'package:hrapp/services/size_config.dart';
@@ -28,8 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      drawer: drawerList(context),
+      bottomNavigationBar: bottomNavBar(2,context),
       appBar: AppBar(
+        title: Text(getTranslated(context, 'home_page_title')),
+        centerTitle: true,
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: SizeConfig.safeBlockHorizontal),
@@ -40,20 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 Icons.notifications,
                 color: Colors.white,
+                size: SizeConfig.safeBlockHorizontal*8,
               ),
             ),
           ),
         ],
-        centerTitle: true,
-        title: Text(getTranslated(context, 'home_page_title')),
       ),
+      drawer: drawerList(context),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
-              width: 360.0,
-              height: 182.28,
+              width: SizeConfig.blockSizeHorizontal*80.0,
+              height: SizeConfig.blockSizeVertical*25.0,
+              //margin: EdgeInsets.all(SizeConfig.blockSizeHorizontal),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Color.fromRGBO(221, 239, 237, 1),
@@ -69,82 +71,72 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Color.fromRGBO(71, 80, 91, 1),
+                        radius: SizeConfig.safeBlockHorizontal*5.5,
+                        foregroundColor: Colors.grey,
+                        child: Icon(
+                          Icons.date_range,
+                          color: Colors.white,
+                          size: SizeConfig.safeBlockHorizontal*8,
+                        ),
+                      ),
+                      Text(
+                        dateToday,
+                        style: KCardTextStyle.copyWith(fontSize: SizeConfig.safeBlockHorizontal*4,),
+                      ),
+                    ],
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
-                        height: 10,
+                        width: SizeConfig.safeBlockHorizontal*10.0,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 32, right: 32.0, top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              dateToday,
-                              style: KCardTextStyle.copyWith(fontSize: 22.32),
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Color.fromRGBO(71, 80, 91, 1),
-                              radius: 26.5,
-                              foregroundColor: Colors.grey,
-                              child: Icon(
-                                Icons.date_range,
-                                color: Colors.white,
-                                size: 35.34,
-                              ),
-                            )
-                          ],
-                        ),
+                      Text(
+                        getTranslated(context, 'txtView_arrival'),
+                        style: KCardTextStyle.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: SizeConfig.safeBlockHorizontal*5.0),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 75, right: 100.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              arrivalTime,
-                              style: KCardTextStyle.copyWith(fontSize: 18.6),
-                            ),
-                            Text(
-                              getTranslated(context, 'txtView_arrival'),
-                              style: KCardTextStyle.copyWith(
-                                  fontWeight: FontWeight.bold, fontSize: 22.32),
-                            )
-                          ],
-                        ),
+                      Text(
+                        arrivalTime,
+                        style: KCardTextStyle.copyWith(fontSize: SizeConfig.safeBlockHorizontal*5.0),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 75, right: 100.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              leaveTime,
-                              style: KCardTextStyle.copyWith(fontSize: 18.6),
-                            ),
-                            Text(
-                              getTranslated(context, 'txtView_leave'),
-                              style: KCardTextStyle.copyWith(
-                                  fontWeight: FontWeight.bold, fontSize: 22.32),
-                            )
-                          ],
-                        ),
-                      )
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal*10.0,
+                      ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal*10.0,
+                      ),
+                      Text(
+                        getTranslated(context, 'txtView_leave'),
+                        style: KCardTextStyle.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: SizeConfig.safeBlockHorizontal*5),
+                      ),
+                      Text(
+                        leaveTime,
+                        style: KCardTextStyle.copyWith(fontSize: SizeConfig.safeBlockHorizontal*5),
+                      ),
+                      SizedBox(
+                        width: SizeConfig.safeBlockHorizontal*10.0,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
             RoundedButton(
               onPressed: () {
-//                Navigator.pushNamed(context, MainScreen.id,arguments: {
-//                  'index':4
-//                });
-
                 Navigator.pushNamed(context, CheckInOut.id);
               },
               title: getTranslated(context, 'btn_check_in_out'),
