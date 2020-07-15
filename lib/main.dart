@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hrapp/services/size_config.dart';
-
-//import 'package:hrapp/routes/customRouteer.dart';
-//import 'package:hrapp/routes/routesNames.dart';
-//import 'draft/draftScreen.dart';
-
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/addLocationScreen.dart';
@@ -18,6 +12,10 @@ import 'Screens/vacationSent.dart';
 import 'localization/demo_localization.dart';
 import 'localization/localization_constants.dart';
 
+//import 'package:hrapp/services/size_config.dart';
+//import 'package:hrapp/routes/customRouteer.dart';
+//import 'package:hrapp/routes/routesNames.dart';
+//import 'draft/draftScreen.dart';
 
 void main() => runApp(MyApp());
 

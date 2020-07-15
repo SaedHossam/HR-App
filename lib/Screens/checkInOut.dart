@@ -25,24 +25,29 @@ class _CheckInOutState extends State<CheckInOut> {
   String todayArrivalDate = "---";
   String todayArrivalTime = "---";
   String todayLeaveTime = "---";
-  int dataLength=0;
+  int dataLength = 0;
   NetworkHelper networkHelper = NetworkHelper();
+  BorderRadius arRadius = BorderRadius.only(
+      topLeft: Radius.circular(SizeConfig.safeBlockVertical * 2),
+      bottomLeft: Radius.circular(SizeConfig.safeBlockVertical * 2));
+  BorderRadius enRadius = BorderRadius.only(
+      topRight: Radius.circular(SizeConfig.safeBlockVertical * 2),
+      bottomRight: Radius.circular(SizeConfig.safeBlockVertical * 2));
+  Locale myLocale;
 
   Future<void> getCheckInOutData() async {
     var data = await networkHelper.getData();
-    if(data.length == 2){
-      dataLength=2;
+    if (data.length == 2) {
+      dataLength = 2;
       todayArrivalTime = data[0]['time'];
       todayArrivalDate = data[0]['day'];
       todayLeaveTime = data[1]['time'];
-    }
-    else if(data.length == 1){
-      dataLength=1;
+    } else if (data.length == 1) {
+      dataLength = 1;
       todayArrivalTime = data[0]['time'];
       todayArrivalDate = data[0]['day'];
-    }
-    else {
-      dataLength=1;
+    } else {
+      dataLength = 1;
       todayArrivalTime = "---";
       todayArrivalDate = "---";
       todayLeaveTime = "---";
@@ -54,10 +59,10 @@ class _CheckInOutState extends State<CheckInOut> {
   Future<void> getLocation() async {
     try {
       TrustLocation.onChange.listen((values) => setState(() {
-        _latitude = values.latitude;
-        _longitude = values.longitude;
-        _isMockLocation = values.isMockLocation;
-      }));
+            _latitude = values.latitude;
+            _longitude = values.longitude;
+            _isMockLocation = values.isMockLocation;
+          }));
     } on PlatformException catch (e) {
       print('PlatformException $e');
     }
@@ -66,7 +71,7 @@ class _CheckInOutState extends State<CheckInOut> {
   /// request location permission at runtime.
   void requestLocationPermission() async {
     PermissionStatus permission =
-    await LocationPermissions().requestPermissions();
+        await LocationPermissions().requestPermissions();
     print('permissions: $permission');
   }
 
@@ -84,10 +89,11 @@ class _CheckInOutState extends State<CheckInOut> {
 
   @override
   Widget build(BuildContext context) {
+    myLocale = Localizations.localeOf(context);
     SizeConfig().init(context);
     return Scaffold(
       drawer: drawerList(context),
-      bottomNavigationBar: bottomNavBar(0,context),
+      bottomNavigationBar: bottomNavBar(0, context),
       appBar: AppBar(
         title: Text(getTranslated(context, 'check_in_out_page_title')),
         centerTitle: true,
@@ -97,62 +103,57 @@ class _CheckInOutState extends State<CheckInOut> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
-              height: SizeConfig.safeBlockHorizontal*45,
+              height: SizeConfig.safeBlockHorizontal * 45,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(236, 254, 252,1),
+                color: Color.fromRGBO(236, 254, 252, 1),
                 border: Border.all(
                   color: Color.fromRGBO(164, 241, 231, 1),
                 ),
-                borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*100),
+                borderRadius:
+                    BorderRadius.circular(SizeConfig.safeBlockVertical * 100),
               ),
               child: GestureDetector(
-                onTap: () async{
-                  if(dataLength == 0 ){
+                onTap: () async {
+                  if (dataLength == 0) {
                     await networkHelper.addEnterTime();
                     dataLength++;
                     print('1st click');
                     setState(() {
                       getCheckInOutData();
                     });
-                  }
-                  else if(dataLength == 1){
+                  } else if (dataLength == 1) {
                     await networkHelper.addLeaveTime();
                     dataLength++;
                     print('2nd click');
                     setState(() {
                       getCheckInOutData();
                     });
-                  }
-                  else {
+                  } else {
                     print('clicked!!');
                     setState(() {
                       getCheckInOutData();
                     });
-
                   }
                 },
                 child: Icon(
                   Icons.fingerprint,
-                  size: SizeConfig.safeBlockVertical*20,
-                  color: Color.fromRGBO(	110, 122, 144, 1),
+                  size: SizeConfig.safeBlockVertical * 20,
+                  color: Color.fromRGBO(110, 122, 144, 1),
                 ),
               ),
             ),
-
             Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: SizeConfig.safeBlockHorizontal*3,
-              ),
-              //padding: EdgeInsets.all(10.0),
-              //width: SizeConfig.safeBlockVertical*80,
-              height: SizeConfig.safeBlockHorizontal*56,
+              width: SizeConfig.blockSizeHorizontal * 80.0,
+              height: SizeConfig.blockSizeVertical * 25.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*2),
+                borderRadius:
+                    BorderRadius.circular(SizeConfig.safeBlockVertical * 2),
                 color: Color.fromRGBO(221, 239, 237, 1),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black,
-                      blurRadius: SizeConfig.safeBlockVertical*1, // soften the shadow
+                      blurRadius:
+                          SizeConfig.safeBlockVertical * 1, // soften the shadow
                       spreadRadius: 1.0, //extend the shadow
                       offset: Offset(
                         -0.1, // horizontally
@@ -160,111 +161,148 @@ class _CheckInOutState extends State<CheckInOut> {
                       ))
                 ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Row(
                 children: <Widget>[
-                  Text(
-                    todayArrivalDate,
-                    style: KCardTextStyle.copyWith(fontSize: SizeConfig.safeBlockVertical*3),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 78.0,
+                    height: SizeConfig.blockSizeVertical * 25.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          todayArrivalDate,
+                          style: KCardTextStyle.copyWith(
+                              fontSize: SizeConfig.safeBlockVertical * 3),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Container(
+                              width: SizeConfig.safeBlockVertical * 20,
+                              height: SizeConfig.safeBlockHorizontal * 20,
+                              margin:
+                                  EdgeInsets.all(SizeConfig.safeBlockVertical),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.safeBlockVertical * 1),
+                                color: Color.fromRGBO(196, 196, 196, 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 1.0, // soften the shadow
+                                      spreadRadius: 1.0, //extend the shadow
+                                      offset: Offset(
+                                        -0.1, // horizontally
+                                        2.5, // Vertically
+                                      ))
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.exit_to_app,
+                                        size: SizeConfig.safeBlockVertical * 6,
+                                      ),
+                                      Text(
+                                        getTranslated(
+                                            context, 'txtView2_arrival'),
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.safeBlockVertical *
+                                                    3.5,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Color.fromRGBO(71, 80, 98, 1)),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    todayArrivalTime,
+                                    style: KCardTextStyle.copyWith(
+                                        fontSize:
+                                            SizeConfig.safeBlockVertical * 2.5,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: SizeConfig.safeBlockVertical * 20,
+                              height: SizeConfig.safeBlockHorizontal * 20,
+                              margin:
+                                  EdgeInsets.all(SizeConfig.safeBlockVertical),
+                              //padding: EdgeInsets.all(SizeConfig.safeBlockVertical*80),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(196, 196, 196, 1),
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.safeBlockVertical * 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 1.0, // soften the shadow
+                                      spreadRadius: 1.0, //extend the shadow
+                                      offset: Offset(
+                                        -0.1, // horizontally
+                                        2.5, // Vertically
+                                      ))
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.exit_to_app,
+                                        size: SizeConfig.safeBlockVertical * 6,
+                                      ),
+                                      Text(
+                                        getTranslated(
+                                            context, 'txtView2_leave'),
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.safeBlockVertical *
+                                                    3.5,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Color.fromRGBO(71, 80, 98, 1)),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    todayLeaveTime,
+                                    style: KCardTextStyle.copyWith(
+                                        fontSize:
+                                            SizeConfig.safeBlockVertical * 2.5,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Container(
-                        width: SizeConfig.safeBlockVertical*20,
-                        height: SizeConfig.safeBlockHorizontal*30,
-                        margin:  EdgeInsets.all(SizeConfig.safeBlockVertical),
-                        //padding: EdgeInsets.all(SizeConfig.safeBlockVertical*80),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(196, 196, 196, 1),
-                          borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*1),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 1.0, // soften the shadow
-                                spreadRadius: 1.0, //extend the shadow
-                                offset: Offset(
-                                  -0.1, // horizontally
-                                  2.5, // Vertically
-                                ))
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.exit_to_app,
-                                  size: SizeConfig.safeBlockVertical*6,
-                                ),
-                                Text(
-                                  getTranslated(context,'txtView2_leave'),
-                                  style: TextStyle(
-                                    fontSize: SizeConfig.safeBlockVertical*2.5,
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Text(
-                                todayLeaveTime,
-                              style: KCardTextStyle.copyWith(fontSize:SizeConfig.safeBlockVertical*2.5),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: SizeConfig.safeBlockVertical*20,
-                        height: SizeConfig.safeBlockHorizontal*30,
-                        margin:  EdgeInsets.all(SizeConfig.safeBlockVertical),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(SizeConfig.safeBlockVertical*1),
-                          color: Color.fromRGBO(196, 196, 196, 1),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 1.0, // soften the shadow
-                                spreadRadius: 1.0, //extend the shadow
-                                offset: Offset(
-                                  -0.1, // horizontally
-                                  2.5, // Vertically
-                                ))
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.exit_to_app,
-                                  size: SizeConfig.safeBlockVertical*6,
-                                ),
-                                Text(
-                                  getTranslated(context,'txtView2_arrival'),
-                                  style: TextStyle(
-                                    fontSize: SizeConfig.safeBlockVertical*2.5,
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                            Text(
-                              todayArrivalTime,
-                              style: KCardTextStyle.copyWith(fontSize:SizeConfig.safeBlockVertical*2.5),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 2.0,
+                    height: SizeConfig.blockSizeVertical * 25.0,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          myLocale.languageCode == 'en' ? enRadius : arRadius,
+                      color: Color.fromRGBO(71, 80, 98, 1),
+                    ),
                   ),
                 ],
               ),
             ),
-
 //            RoundedButton(
 //              onPressed: ()async{
 //                await networkHelper.clearDayData();
@@ -281,7 +319,6 @@ class _CheckInOutState extends State<CheckInOut> {
 //            Text('Mock Location: $_isMockLocation'),
 //
 //            Text('Latitude: $_latitude, Longitude: $_longitude'),
-
           ],
         ),
       ),
